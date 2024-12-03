@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<style>
+/* styles.css */
+.container {
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.add-category {
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    padding: 8px;
+    width: 300px;
+    margin-right: 10px;
+}
+
+.btn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+</style>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/shop}">Shop</a></li>
+                <li><a th:href="@{/cart}">Cart</a></li>
+                <li><a th:href="@{/login}">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Categories</h1>
+
+        <!-- Add Category Form -->
+        <div class="add-category">
+              <form th:action="@{/admin/categories/add}" method="post" th:object="${category}">
+                  <label for="name">Category Name:</label>
+                  <input type="text" th:field="*{name}" placeholder="Enter category name" required>
+                  <button type="submit" class="btn btn-primary">Add Category</button>
+             </form>
+        </div>
+
+        <!-- Display Categories -->
+        <h2>Current Categories</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Category ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="category : ${categories}">
+                    <td th:text="${category.id}">1</td>
+                    <td th:text="${category.name}">Category Name</td>
+                    <td>
+                        <!-- Edit and Delete Actions -->
+                        <a th:href="@{'/admin/categories/edit/' + ${category.id}}" class="btn btn-warning">Edit</a>
+                        <a th:href="@{'/admin/categories/delete/' + ${category.id}}" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>Shop Website &copy; 2024</p>
+    </footer>
+</body>
+</html>

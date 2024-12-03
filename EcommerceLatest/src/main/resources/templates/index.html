@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DKart</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+       /*  {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        } */
+
+        body {
+            background-color: #f4f4f4;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color:black ;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            color: #fff;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .logo i {
+            font-size: 22px;
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover i {
+            transform: rotate(360deg);
+        }
+
+        .search-bar {
+            padding: 8px 12px;
+            border-radius: 25px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: #333;
+            background-color: #fff;
+            margin-left: 20px;
+            transition: width 0.3s ease;
+            width: 150px;
+        }
+
+        .search-bar:focus {
+            width: 200px;
+        }
+
+        .navbar-right ul {
+            list-style-type: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-right ul li {
+            margin: 0 10px;
+            position: relative;
+        }
+
+        .navbar-right ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .navbar-right ul li a i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .navbar-right ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: linear-gradient(90deg, #ff8a00, #e52e71);
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            top: 100%;
+            left: 0;
+            z-index: 1;
+            animation: dropdown 0.3s ease;
+        }
+
+        @keyframes dropdown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown-content a {
+            color: #fff;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            transition: background 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #555;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        /* Carousel Styling */
+        .carousel {
+            margin-top: 0px;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 50vh;
+            object-fit: cover;
+        }
+
+        /* Product Cards */
+        .product-section {
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .product-section h2 {
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-info h5 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .product-info p {
+            color: #777;
+        }
+
+        .product-info .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #e52e71;
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 1.5s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* Keep existing styles */
+        /* Additional styling for new contents */
+        .carousel-content {
+            position: absolute;
+            bottom: 50px;
+            left: 50px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .carousel-content h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .carousel-content p {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .btn-shop-now {
+            background-color: #e52e71;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .btn-shop-now:hover {
+            background-color: #ff8a00;
+        }
+
+        .product-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .product-buttons .btn {
+            width: 48%;
+        }
+
+        .footer {
+            background-color: black;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a th:href="@{/admin}" class="logo"><i class="fas fa-store"></i> DKart</a>
+            <input type="text" placeholder="Search products..." class="search-bar">
+        </div>
+        <div class="navbar-right">
+            <ul>
+                <li><a th:href="@{/about}"><i class="fas fa-home"></i> About</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn"><i class="fas fa-th-large"></i> Categories</a>
+                    <div class="dropdown-content">
+                        <a th:href="@{/categories/electronics}"><i class="fas fa-tv"></i> Electronics</a>
+                        <a th:href="@{/categories/fashion}"><i class="fas fa-tshirt"></i> Fashion</a>
+                        <a th:href="@{/categories/home}"><i class="fas fa-couch"></i> Home & Furniture</a>
+                        <a th:href="@{/categories/books}"><i class="fas fa-book"></i> Books</a>
+                    </div>
+                </li>
+                <li><a th:href="@{/shop}"><i class="fas fa-box-open"></i> Shop</a></li>
+                <li><a th:href="@{/cart}"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn"><i class="fas fa-user"></i> Account</a>
+                    <div class="dropdown-content">
+                        <a th:href="@{/login}"><i class="fas fa-sign-in-alt"></i> Login</a>
+                        <a th:href="@{/register}"><i class="fas fa-user-plus"></i> Register</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Carousel Section -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="laptop.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="diary.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="pencil.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="trolly.jpg" class="d-block w-100" alt="...">
+                <div class="carousel-content">
+                    <h3>Exclusive Fashion Sale</h3>
+                    <p>Discover the latest trends and exclusive deals.</p>
+                    <button class="btn-shop-now">Shop Now</button>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Product Section -->
+    <div class="product-section fade-in">
+        <h2>Our Featured Products</h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="lap.jpg" alt="Laptop">
+                        </div>
+                        <div class="product-info">
+                            <h5>High-End Laptop</h5>
+                            <p>Latest technology and features for productivity.</p>
+                            <div class="price">Rs 89,999</div>
+                            <div class="product-buttons">
+                                <button class="btn btn-primary">Buy Now</button>
+                                <button class="btn btn-secondary">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="mob.jpg" alt="Smartphone">
+                        </div>
+                        <div class="product-info">
+                            <h5>SmartPhone</h5>
+                            <p>Stay connected with our latest smartphones.</p>
+                            <div class="price">Rs 24,499</div>
+                            <div class="product-buttons">
+                                <button class="btn btn-primary">Buy Now</button>
+                                <button class="btn btn-secondary">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="head.jpg" alt="Headphones">
+                        </div>
+                        <div class="product-info">
+                            <h5>Wireless Headphones</h5>
+                            <p>Experience quality sound without wires.</p>
+                            <div class="price">Rs 2,499</div>
+                            <div class="product-buttons">
+                                <button class="btn btn-primary">Buy Now</button>
+                                <button class="btn btn-secondary">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 DKart. All Rights Reserved.</p>
+        <p>
+            <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a> | <a href="#">Contact Us</a>
+        </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
